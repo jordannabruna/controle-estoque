@@ -39,6 +39,17 @@ CREATE TABLE IF NOT EXISTS fornecedor (
     cnpj           VARCHAR(18)  NOT NULL UNIQUE
 );
 
+-- fornecedor_produto
+-- relaciona fornecedores e produtos
+CREATE TABLE IF NOT EXISTS fornecedor_produto (
+    id             SERIAL PRIMARY KEY,
+    id_fornecedor   INT NOT NULL,
+    id_produto      INT NOT NULL,
+    CONSTRAINT fk_fornecedor_produto_fornecedor FOREIGN KEY (id_fornecedor) REFERENCES fornecedor (id),
+    CONSTRAINT fk_fornecedor_produto_produto FOREIGN KEY (id_produto) REFERENCES produto (id),
+    CONSTRAINT uk_fornecedor_produto UNIQUE (id_fornecedor, id_produto)
+);
+
 -- venda
 -- cada venda pertence a um cliente
 CREATE TABLE IF NOT EXISTS venda (

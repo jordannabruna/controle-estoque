@@ -11,6 +11,7 @@ public class Main {
     static ProdutoController    produtoCtrl    = new ProdutoController();
     static ClienteController    clienteCtrl    = new ClienteController();
     static FornecedorController fornecedorCtrl = new FornecedorController();
+    static FornecedorProdutoController fornecedorProdutoCtrl = new FornecedorProdutoController();
     static VendaController      vendaCtrl      = new VendaController();
     static CompraController     compraCtrl     = new CompraController();
 
@@ -61,6 +62,17 @@ public class Main {
 
         System.out.println("\n--- Listando fornecedores ---");
         fornecedorCtrl.listarTodos().forEach(System.out::println);
+
+        // relacionamento fornecedor-produto
+
+        System.out.println("\n--- Vinculando fornecedores aos produtos ---");
+        FornecedorProduto fp1 = new FornecedorProduto(techDistrib, notebook);
+        FornecedorProduto fp2 = new FornecedorProduto(alimentosSA, arroz);
+        fornecedorProdutoCtrl.salvar(fp1);
+        fornecedorProdutoCtrl.salvar(fp2);
+
+        System.out.println("\n--- Listando relacionamentos fornecedor-produto ---");
+        fornecedorProdutoCtrl.listarTodos().forEach(System.out::println);
 
         // compra
         
