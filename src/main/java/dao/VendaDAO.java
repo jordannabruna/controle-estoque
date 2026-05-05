@@ -103,12 +103,10 @@ public class VendaDAO {
     }
 
     public Venda pesquisar(int id) {
-        String sql = """
-                SELECT v.*, c.nome AS cli_nome, c.cpf, c.rg, c.endereco, c.telefone
-                FROM venda v
-                JOIN cliente c ON c.id = v.id_cliente
-                WHERE v.id = ?
-                """;
+        String sql = "SELECT v.*, c.nome AS cli_nome, c.cpf, c.rg, c.endereco, c.telefone " +
+            "FROM venda v " +
+            "JOIN cliente c ON c.id = v.id_cliente " +
+            "WHERE v.id = ?";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -128,12 +126,10 @@ public class VendaDAO {
 
     public List<Venda> listarTodos() {
         List<Venda> lista = new ArrayList<>();
-        String sql = """
-                SELECT v.*, c.nome AS cli_nome, c.cpf, c.rg, c.endereco, c.telefone
-                FROM venda v
-                JOIN cliente c ON c.id = v.id_cliente
-                ORDER BY v.data_venda DESC
-                """;
+        String sql = "SELECT v.*, c.nome AS cli_nome, c.cpf, c.rg, c.endereco, c.telefone " +
+            "FROM venda v " +
+            "JOIN cliente c ON c.id = v.id_cliente " +
+            "ORDER BY v.data_venda DESC";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -148,15 +144,13 @@ public class VendaDAO {
 
     private List<ItemVenda> buscarItens(Connection con, int idVenda) throws SQLException {
         List<ItemVenda> itens = new ArrayList<>();
-        String sql = """
-                SELECT iv.*, p.nome AS prod_nome, p.preco_medio, p.qtde_estoque,
-                       p.valor_ultima_compra, p.valor_ultima_venda, p.id_categoria,
-                       c.nome AS cat_nome
-                FROM item_venda iv
-                JOIN produto p  ON p.id = iv.id_produto
-                JOIN categoria c ON c.id = p.id_categoria
-                WHERE iv.id_venda = ?
-                """;
+        String sql = "SELECT iv.*, p.nome AS prod_nome, p.preco_medio, p.qtde_estoque, " +
+            "       p.valor_ultima_compra, p.valor_ultima_venda, p.id_categoria, " +
+            "       c.nome AS cat_nome " +
+            "FROM item_venda iv " +
+            "JOIN produto p  ON p.id = iv.id_produto " +
+            "JOIN categoria c ON c.id = p.id_categoria " +
+            "WHERE iv.id_venda = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, idVenda);
         ResultSet rs = ps.executeQuery();

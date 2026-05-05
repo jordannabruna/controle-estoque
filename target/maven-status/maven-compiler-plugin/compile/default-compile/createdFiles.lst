@@ -1,10 +1,10 @@
 br/edu/ifg/estoque/util/Conexao.class
 br/edu/ifg/estoque/controller/CompraController.class
 br/edu/ifg/estoque/model/Produto.class
-br/edu/ifg/estoque/model/Cliente.class
 br/edu/ifg/estoque/dao/ProdutoDAO.class
-br/edu/ifg/estoque/Main.class
+br/edu/ifg/estoque/model/Cliente.class
 br/edu/ifg/estoque/dao/FornecedorDAO.class
+br/edu/ifg/estoque/Main.class
 br/edu/ifg/estoque/dao/ClienteDAO.class
 br/edu/ifg/estoque/controller/VendaController.class
 br/edu/ifg/estoque/controller/CategoriaController.class

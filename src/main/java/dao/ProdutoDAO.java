@@ -11,11 +11,9 @@ import java.util.List;
 public class ProdutoDAO {
 
     public boolean salvar(Produto produto) {
-        String sql = """
-                INSERT INTO produto (nome, preco_medio, qtde_estoque,
-                                     valor_ultima_compra, valor_ultima_venda, id_categoria)
-                VALUES (?,?,?,?,?,?)
-                """;
+        String sql = "INSERT INTO produto (nome, preco_medio, qtde_estoque, " +
+            "valor_ultima_compra, valor_ultima_venda, id_categoria) " +
+            "VALUES (?,?,?,?,?,?)";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -40,11 +38,9 @@ public class ProdutoDAO {
     }
 
     public boolean alterar(Produto produto) {
-        String sql = """
-                UPDATE produto SET nome=?, preco_medio=?, qtde_estoque=?,
-                                   valor_ultima_compra=?, valor_ultima_venda=?, id_categoria=?
-                WHERE id=?
-                """;
+        String sql = "UPDATE produto SET nome=?, preco_medio=?, qtde_estoque=?, " +
+            "valor_ultima_compra=?, valor_ultima_venda=?, id_categoria=? " +
+            "WHERE id=?";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -84,12 +80,10 @@ public class ProdutoDAO {
     }
 
     public Produto pesquisar(int id) {
-        String sql = """
-                SELECT p.*, c.nome AS cat_nome
-                FROM produto p
-                JOIN categoria c ON c.id = p.id_categoria
-                WHERE p.id = ?
-                """;
+        String sql = "SELECT p.*, c.nome AS cat_nome " +
+            "FROM produto p " +
+            "JOIN categoria c ON c.id = p.id_categoria " +
+            "WHERE p.id = ?";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -105,12 +99,10 @@ public class ProdutoDAO {
 
     public List<Produto> listarTodos() {
         List<Produto> lista = new ArrayList<>();
-        String sql = """
-                SELECT p.*, c.nome AS cat_nome
-                FROM produto p
-                JOIN categoria c ON c.id = p.id_categoria
-                ORDER BY p.nome
-                """;
+        String sql = "SELECT p.*, c.nome AS cat_nome " +
+            "FROM produto p " +
+            "JOIN categoria c ON c.id = p.id_categoria " +
+            "ORDER BY p.nome";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -125,12 +117,10 @@ public class ProdutoDAO {
 
     // Atualiza somente os campos de estoque e valores calculados
     public boolean atualizarEstoqueEValores(Produto produto) {
-        String sql = """
-                UPDATE produto
-                SET qtde_estoque=?, preco_medio=?,
-                    valor_ultima_compra=?, valor_ultima_venda=?
-                WHERE id=?
-                """;
+        String sql = "UPDATE produto " +
+            "SET qtde_estoque=?, preco_medio=?, " +
+            "    valor_ultima_compra=?, valor_ultima_venda=? " +
+            "WHERE id=?";
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql)) {
 

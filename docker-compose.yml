@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: controle-estoque-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_DB: controle_estoque_prog2_jordanna
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/banco.sql:/docker-entrypoint-initdb.d/01-banco.sql:ro
+
+volumes:
+  postgres_data:

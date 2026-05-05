@@ -2,45 +2,26 @@
 
 ## Como executar
 
-### 1️⃣ Iniciar o PostgreSQL
+### 1️⃣ Subir o PostgreSQL com Docker
 
 ```bash
-sudo service postgresql start
+docker compose up -d
 ```
 
-### 2️⃣ Criar o banco de dados
+O container já cria o banco `controle_estoque_prog2_jordanna` com o usuário `postgres` e a senha `123456789`.
+
+### 2️⃣ Compilar e executar o programa
 
 ```bash
-sudo -u postgres psql -c "CREATE DATABASE controle_estoque_prog2_jordanna ENCODING 'UTF8';"
-```
-
-### 3️⃣ Configurar a senha do PostgreSQL
-
-```bash
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123456789';"
-```
-
-### 4️⃣ Criar as tabelas
-
-```bash
-cat /home/jordanna/Downloads/controle-estoque/controle-estoque/src/main/resources/banco.sql | sudo -u postgres psql -d controle_estoque_prog2_jordanna
-```
-
-### 5️⃣ Compilar e executar o programa
-
-```bash
-cd /home/jordanna/Downloads/controle-estoque/controle-estoque
 mvn clean compile exec:java -Dexec.mainClass="br.edu.ifg.estoque.Main"
 ```
 
 ---
 
-## Versão rápida (um comando)
+## Versão rápida
 
-Após a primeira execução, use:
+Após subir o container uma vez, basta executar:
 
 ```bash
-cd /home/jordanna/Downloads/controle-estoque/controle-estoque && \
-sudo service postgresql start && \
 mvn exec:java -Dexec.mainClass="br.edu.ifg.estoque.Main"
 ```

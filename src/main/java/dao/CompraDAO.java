@@ -110,12 +110,10 @@ public class CompraDAO {
     }
 
     public Compra pesquisar(int id) {
-        String sql = """
-                SELECT cp.*, f.nome_fantasia, f.razao_social, f.cnpj
-                FROM compra cp
-                JOIN fornecedor f ON f.id = cp.id_fornecedor
-                WHERE cp.id = ?
-                """;
+        String sql = "SELECT cp.*, f.nome_fantasia, f.razao_social, f.cnpj " +
+            "FROM compra cp " +
+            "JOIN fornecedor f ON f.id = cp.id_fornecedor " +
+            "WHERE cp.id = ?";
         try (Connection con = Conexao.getConexao();//estabelece conexão
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -135,12 +133,10 @@ public class CompraDAO {
 
     public List<Compra> listarTodos() {
         List<Compra> lista = new ArrayList<>();// lista para armazenar as compras encontradas
-        String sql = """
-                SELECT cp.*, f.nome_fantasia, f.razao_social, f.cnpj
-                FROM compra cp
-                JOIN fornecedor f ON f.id = cp.id_fornecedor
-                ORDER BY cp.data_compra DESC
-                """;
+        String sql = "SELECT cp.*, f.nome_fantasia, f.razao_social, f.cnpj " +
+            "FROM compra cp " +
+            "JOIN fornecedor f ON f.id = cp.id_fornecedor " +
+            "ORDER BY cp.data_compra DESC";
         try (Connection con = Conexao.getConexao();//conecta
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -172,15 +168,13 @@ public class CompraDAO {
     //metodo que busca os itens de uma compra
     private List<ItemCompra> buscarItens(Connection con, int idCompra) throws SQLException {
         List<ItemCompra> itens = new ArrayList<>();// lista para armazenar os itens encontrados
-        String sql = """
-                SELECT ic.*, p.nome AS prod_nome, p.preco_medio, p.qtde_estoque,
-                       p.valor_ultima_compra, p.valor_ultima_venda, p.id_categoria,
-                       c.nome AS cat_nome
-                FROM item_compra ic
-                JOIN produto p  ON p.id = ic.id_produto
-                JOIN categoria c ON c.id = p.id_categoria
-                WHERE ic.id_compra = ?
-                """;
+        String sql = "SELECT ic.*, p.nome AS prod_nome, p.preco_medio, p.qtde_estoque, " +
+            "       p.valor_ultima_compra, p.valor_ultima_venda, p.id_categoria, " +
+            "       c.nome AS cat_nome " +
+            "FROM item_compra ic " +
+            "JOIN produto p  ON p.id = ic.id_produto " +
+            "JOIN categoria c ON c.id = p.id_categoria " +
+            "WHERE ic.id_compra = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, idCompra);
         ResultSet rs = ps.executeQuery();
