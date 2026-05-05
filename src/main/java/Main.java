@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class Main {
 
-    static CategoriaController  categoriaCtrl  = new CategoriaController();
+    static CategoriaController  categoriaCtrl  = new CategoriaController();//referencia para controlador realizar as operações necessárias
     static ProdutoController    produtoCtrl    = new ProdutoController();
     static ClienteController    clienteCtrl    = new ClienteController();
     static FornecedorController fornecedorCtrl = new FornecedorController();
@@ -18,17 +18,18 @@ public class Main {
 
         System.out.println("=== SISTEMA DE CONTROLE DE ESTOQUE ===\n");
 
-        // 1. CATEGORIAS
+        // categorias
         System.out.println("--- Cadastrando categorias ---");
-        Categoria catEletronicos = new Categoria("Eletrônicos");
+        Categoria catEletronicos = new Categoria("Eletrônicos");//cria novo objeto categoria
         Categoria catAlimentos   = new Categoria("Alimentos");
-        categoriaCtrl.salvar(catEletronicos);
+        //chama o método salvar do controlador
+        categoriaCtrl.salvar(catEletronicos);//que chama o método da classe CategoriaDAO para persistir a categoria no banco de dados
         categoriaCtrl.salvar(catAlimentos);
 
         System.out.println("\n--- Listando categorias ---");
         categoriaCtrl.listarTodos().forEach(System.out::println);
 
-        // 2. PRODUTOS
+        // produtos
         
         System.out.println("\n--- Cadastrando produtos ---");
         Produto notebook = new Produto("Notebook Dell", catEletronicos);
@@ -39,7 +40,7 @@ public class Main {
         System.out.println("\n--- Listando produtos ---");
         produtoCtrl.listarTodos().forEach(System.out::println);
 
-        // 3. CLIENTES
+        // clientes
         
         System.out.println("\n--- Cadastrando clientes ---");
         Cliente joao  = new Cliente("João Silva",  "111.111.111-11", "1234567", "Rua A, 10", "64999990001");
@@ -50,7 +51,7 @@ public class Main {
         System.out.println("\n--- Listando clientes ---");
         clienteCtrl.listarTodos().forEach(System.out::println);
 
-        // 4. FORNECEDORES
+        // fornecedores
         
         System.out.println("\n--- Cadastrando fornecedores ---");
         Fornecedor techDistrib = new Fornecedor("Tech Distribuidora", "Tech Distribuidora Ltda", "11.111.111/0001-11");
@@ -61,7 +62,7 @@ public class Main {
         System.out.println("\n--- Listando fornecedores ---");
         fornecedorCtrl.listarTodos().forEach(System.out::println);
 
-        // 5. COMPRA
+        // compra
         
         System.out.println("\n--- Realizando compra 1 (notebook e arroz) ---");
         Compra compra1 = new Compra(LocalDate.now(), techDistrib);
@@ -69,7 +70,7 @@ public class Main {
         compra1.adicionarItem(new ItemCompra(arroz,    50,   18.00));
         compraCtrl.salvar(compra1);
 
-        System.out.println("\n--- Realizando compra 2 do notebook (para testar média RNF007) ---");
+        System.out.println("\n--- Realizando compra 2 do notebook (para testar média) ---");
         Compra compra2 = new Compra(LocalDate.now(), techDistrib);
         compra2.adicionarItem(new ItemCompra(notebook, 5, 2300.00));
         compraCtrl.salvar(compra2);
@@ -77,7 +78,7 @@ public class Main {
         System.out.println("\n--- Estoque dos produtos após compras ---");
         produtoCtrl.listarTodos().forEach(System.out::println);
 
-        // 6. VENDA
+        // venda
         
         System.out.println("\n--- Realizando venda 1 para João ---");
         Venda venda1 = new Venda(LocalDate.now(), joao);
@@ -95,13 +96,14 @@ public class Main {
         venda3.adicionarItem(new ItemVenda(arroz, 2, 25.00));
         vendaCtrl.salvar(venda3);
 
-        System.out.println("\n--- Tentativa de venda 4 para João (deve ser BLOQUEADA) ---");
+        //deve ser bloqueada por excesso de vendas
+        System.out.println("\n--- Tentativa de venda 4 para João (deve ser bloqueada) ---");
         Venda venda4 = new Venda(LocalDate.now(), joao);
         venda4.adicionarItem(new ItemVenda(arroz, 1, 25.00));
         vendaCtrl.salvar(venda4);
 
-        System.out.println("\n--- Tentativa de venda com estoque zerado (deve ser BLOQUEADA - RNF003) ---");
-        // Forçamos produto sem estoque criando um produto novo sem compra
+        //deve ser bloqueada por estoque insuficiente
+        System.out.println("\n--- Tentativa de venda com estoque zerado (deve ser bloqueada) ---");
         Produto semEstoque = new Produto("Produto Sem Estoque", catEletronicos);
         produtoCtrl.salvar(semEstoque);
         Venda vendaBloqueada = new Venda(LocalDate.now(), maria);
@@ -111,7 +113,7 @@ public class Main {
         System.out.println("\n--- Estoque dos produtos após vendas ---");
         produtoCtrl.listarTodos().forEach(System.out::println);
 
-        // 7. CONSULTAS E LISTAGENS
+        // consultas e listagens
         
         System.out.println("\n--- Listando todas as vendas ---");
         vendaCtrl.listarTodos().forEach(System.out::println);
@@ -133,7 +135,7 @@ public class Main {
             compraConsultada.getItens().forEach(i -> System.out.println("  " + i));
         }
 
-        // 8. ALTERAÇÃO E EXCLUSÃO
+        // alteração e exclusão
         
         System.out.println("\n--- Alterando categoria ---");
         catAlimentos.setNome("Alimentos e Bebidas");
@@ -145,6 +147,6 @@ public class Main {
         fornecedorCtrl.salvar(fornecedorTemp);
         fornecedorCtrl.excluir(fornecedorTemp.getId());
 
-        System.out.println("\n=== TESTES CONCLUÍDOS ===");
+        System.out.println("\n=== TESTES CONCLUÍDOS :) ===");
     }
 }

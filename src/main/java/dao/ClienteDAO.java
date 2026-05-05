@@ -102,15 +102,15 @@ public class ClienteDAO {
         return lista;
     }
 
-    // RNF004 — conta vendas realizadas para um CPF no mesmo mês/ano
+    // conta vendas realizadas para um CPF no mesmo mês/ano
     public int contarVendasNoPeriodo(String cpf, int mes, int ano) {
         String sql = """
                 SELECT COUNT(*) AS total
                 FROM venda v
                 JOIN cliente c ON c.id = v.id_cliente
                 WHERE c.cpf = ?
-                  AND MONTH(v.data_venda) = ?
-                  AND YEAR(v.data_venda)  = ?
+                  AND EXTRACT(MONTH FROM v.data_venda) = ?
+                  AND EXTRACT(YEAR FROM v.data_venda) = ?
                 """;
         try (Connection con = Conexao.getConexao();
              PreparedStatement ps = con.prepareStatement(sql)) {

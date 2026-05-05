@@ -24,7 +24,7 @@ public class VendaController {
         int vendasNoPeriodo = clienteDAO.contarVendasNoPeriodo(cpf, mes, ano);// consulta no banco quantas vendas o cliente já fez no mesmo mês e ano
 
         if (vendasNoPeriodo >= 3) {// se o cliente já tiver feito 3 compras no mês, sistema bloqueia a venda
-            System.err.println("RNF004 - Venda bloqueada: cliente CPF " + cpf// informa que o cliente deste cpf já atingiu o limite de vendas mensal
+            System.err.println("Venda bloqueada: cliente CPF " + cpf// informa que o cliente deste cpf já atingiu o limite de vendas mensal
                     + " já possui " + vendasNoPeriodo + " vendas em " + mes + "/" + ano
                     + ". Limite de 3 por mês atingido.");
             return false;// bloqueia venda
@@ -38,12 +38,12 @@ public class VendaController {
                 return false;// bloqueia a venda
             }
             if (prodAtual.getQtdeEstoque() < 1) {// se o estoque for menor que 1
-                System.err.println("RNF003 - Venda bloqueada: produto '"//não é possível vender um produto sem estoque
+                System.err.println("Venda bloqueada: produto '"//não é possível vender um produto sem estoque
                         + prodAtual.getNome() + "' sem estoque disponível.");// exibe nome do produto indisponível
                 return false;// bloqueia a venda
             }
             if (prodAtual.getQtdeEstoque() < item.getQuantidade()) {// caso o estoque seja menor que a quantidade solicitada
-                System.err.println("RNF003 - Venda bloqueada: estoque insuficiente para '"// não é possível vender mais do que o disponível
+                System.err.println("Venda bloqueada: estoque insuficiente para '"// não é possível vender mais do que o disponível
                         + prodAtual.getNome() + "'. Disponível: " + prodAtual.getQtdeEstoque()//mostra quantos itens estão disponíveis
                         + ", solicitado: " + item.getQuantidade());//mostra quantos itens foram solicitados
                 return false;// bloqueia a venda
@@ -67,9 +67,9 @@ public class VendaController {
             prod.setValorUltimaVenda(item.getValorUnit());
 
             produtoDAO.atualizarEstoqueEValores(prod);// atualiza o produto no banco com novas informacoes de estoque e valor da última venda
-            System.out.println("RNF001 - Estoque atualizado para '"//informa que o estoque do produto foi atualizado
+            System.out.println("Estoque atualizado para '"//informa que o estoque do produto foi atualizado
                     + prod.getNome() + "': " + prod.getQtdeEstoque());// mostra o nome do produto e a nova quantidade em estoque atualizada
-            System.out.println("RNF005 - Valor última venda atualizado: " + prod.getValorUltimaVenda());//
+            System.out.println("Valor última venda atualizado: " + prod.getValorUltimaVenda());//
         }
 
         return true;// se atendeu todas as regras e conseguiu salvar a venda, retorna true
